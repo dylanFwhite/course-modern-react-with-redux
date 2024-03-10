@@ -1,11 +1,31 @@
-import { useState } from "react"
+import axios from "axios"
+import { useState, useEffect } from "react"
 import BookCreate from './components/BookCreate'
 import BookList from './components/BookList'
 
 function App() {
+
     const [books, setBooks] = useState([])
 
-    const createBook = (title) => {
+    const fetchBooks = async () => {
+        const response = await axios.get('http://127.0.0.1:3001/books')
+
+        setBooks(response.data)
+    }
+
+    // DONT DO THIS - It will trigger an infinite re-render loop
+    // fetchBooks()
+    // Utilise useEffect() instead to control when code is run
+    useEffect(() => {
+        fetchBooks()
+    }, [])
+
+
+    const createBook = async (title) => {
+        const response = await axios.post('http://127.0.0.1:3001/books', {
+            title
+        })
+
         // BAD CODE - DO NOT DO THE FOLLOWING
         // Cannot mutate an existing state object by reference because it will
         // not trigger a React re-render
@@ -16,12 +36,14 @@ function App() {
 
         const updatedBooks = [
             ...books,
-            { id: Math.round(Math.random() * 9999), title }
+           response.data
         ] 
+
         setBooks(updatedBooks)
     }
 
-    const deleteBookById = (id) => {
+    const deleteBookById = async (id) => {
+        await axios.delete(`http://127.0.0.1:3001/books/${id}`)
         const updatedBooks = books.filter((book) => {
             return book.id !== id
         })
@@ -29,10 +51,13 @@ function App() {
         setBooks(updatedBooks)
     }
 
-    const editBookById = (id, newTitle) => {
+    const editBookById = async (id, newTitle) => {
+        const response = await axios.put(`http://127.0.0.1:3001/books/${id}`, {
+            title: newTitle
+        })
         const updatedBooks = books.map((book) => {
             if (book.id === id) {
-                return {...book, title: newTitle}
+                return {...book, ...response.data}
             }
 
             return book
