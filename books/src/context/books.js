@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useCallback } from "react";
 import axios from "axios"
 
 
@@ -10,11 +10,25 @@ const BooksContext = createContext()
 function Provider({ children }) {
     const [books, setBooks] = useState([])
 
-    const fetchBooks = async () => {
+    // We use `useCallback()` to create stable reference to the underlying
+    // function - this is to prevent infinite loops caused by the component
+    // that contains the function definition being re-rendered due to the
+    // function being re-defined.
+    // In this case fatchbooks updates the books state which causes the
+    // Provider() function to re-render - this then causes the fetchbooks()
+    // function to be redefined in a new memory location, which in tern triggers
+    // the useEffect callback when the App() (child) componenant gets re-
+    // redered. The useEffect() callback makes a call to fetchbooks() which
+    // repeats the cycle.
+    // useCallback ensures that when the Provider() component is re-rendered
+    // the fetchbooks() function references the original memory location
+    // and is considered to be unchanged - therefore no longer triggering the
+    // useEffect() hook in the App() component
+    const fetchBooks = useCallback(async () => {
         const response = await axios.get('http://127.0.0.1:3001/books')
 
         setBooks(response.data)
-    }
+    }, [])
 
     const createBook = async (title) => {
         const response = await axios.post('http://127.0.0.1:3001/books', {

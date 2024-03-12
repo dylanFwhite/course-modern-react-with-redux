@@ -12,7 +12,7 @@ function App() {
     // Utilise useEffect() instead to control when code is run
     useEffect(() => {
         fetchBooks()
-    }, [])
+    }, [fetchBooks])
 
     return (
         <div className="app">
