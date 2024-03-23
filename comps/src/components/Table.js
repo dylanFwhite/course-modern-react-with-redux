@@ -1,5 +1,12 @@
+import { Fragment } from "react"
+// We use fragments anytime that we want to assign a prop (e.g. the Key prop)
+// without introducing any html elements
+
 function Table({ data, config, keyFn }) {
     const renderedHeaders = config.map((column) => {
+        if (column.header) {
+            return <Fragment key={column.label}>{column.header()}</Fragment>
+        }
         return <th key={column.label}>{column.label}</th>
     })
     
