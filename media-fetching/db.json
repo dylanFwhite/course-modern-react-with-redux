@@ -17,6 +17,53 @@
       "name": "Opal Friesen"
     }
   ],
-  "albums": [],
-  "photos": []
+  "albums": [
+    {
+      "id": 123,
+      "title": "A good album",
+      "userId": 1
+    },
+    {
+      "id": "0cc3",
+      "userId": 1,
+      "title": "Handcrafted Concrete Shoes"
+    },
+    {
+      "id": "5136",
+      "userId": 1,
+      "title": "Unbranded Cotton Fish"
+    },
+    {
+      "id": "b474",
+      "userId": 1,
+      "title": "Licensed Fresh Table"
+    },
+    {
+      "id": "0698",
+      "userId": "761c",
+      "title": "Gorgeous Frozen Shoes"
+    },
+    {
+      "id": "ff6a",
+      "userId": "4088",
+      "title": "Modern Metal Mouse"
+    },
+    {
+      "id": "a570",
+      "userId": "4088",
+      "title": "Handcrafted Concrete Pants"
+    }
+  ],
+  "photos": [
+    {
+      "id": "70c3",
+      "albumId": "ff6a",
+      "url": "https://loremflickr.com/150/150/abstract?lock=41790"
+    },
+    {
+      "id": "032a",
+      "albumId": "ff6a",
+      "url": "https://loremflickr.com/150/150/abstract?lock=77604"
+    }
+  ]
 }
